@@ -1,15 +1,18 @@
 package com.naufal.notesapp
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ActivityCrudnoteBinding
 import com.naufal.notesapp.db.DatabaseConfig
 import com.naufal.notesapp.db.DatabaseConfig.NoteColumns.Companion.DATE
@@ -26,6 +29,8 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var noteHelper: NoteHelper
 
     private lateinit var binding: ActivityCrudnoteBinding
+
+    private val speechRec = 102
 
     companion object {
         const val EXTRA_NOTE = "extra_note"
@@ -67,6 +72,9 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.title = actionBarTitle
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.btnSubmit.setOnClickListener(this)
+        binding.voiceSpeechButton.setOnClickListener {
+            speechInput()
+        }
     }
 
     override fun onClick(view: View) {
@@ -177,5 +185,31 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             .setNegativeButton("Tidak") { dialog, _ -> dialog.cancel() }
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == speechRec && resultCode == Activity.RESULT_OK) {
+            val result: ArrayList<String>? =
+                data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            binding.edtDescription.text =
+                Editable.Factory.getInstance().newEditable(result?.get(0).toString())
+        }
+    }
+
+    private fun speechInput() {
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
+            Toast.makeText(this, "Speech Failed", Toast.LENGTH_SHORT).show()
+        } else {
+            val voiceSpeech = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            voiceSpeech.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
+            voiceSpeech.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            voiceSpeech.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
+            startActivityForResult(voiceSpeech, speechRec)
+        }
     }
 }
