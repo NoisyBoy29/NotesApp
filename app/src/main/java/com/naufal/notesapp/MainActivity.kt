@@ -23,33 +23,38 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: NoteAdapter
 
-    val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.data != null) {
-            // Akan dipanggil jika request codenya ADD
-            when (result.resultCode) {
-                CRUDNoteActivity.RESULT_ADD -> {
-                    val note = result.data?.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE) as Note
-                    adapter.addItem(note)
-                    binding.rvNotes.smoothScrollToPosition(adapter.itemCount - 1)
-                    showSnackbarMessage("Satu item berhasil ditambahkan")
-                }
-                CRUDNoteActivity.RESULT_UPDATE -> {
-                    val note = result.data?.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE) as Note
-                    val position = result?.data?.getIntExtra(CRUDNoteActivity.EXTRA_POSITION, 0) as Int
-                    adapter.updateItem(position, note)
-                    binding.rvNotes.smoothScrollToPosition(position)
-                    showSnackbarMessage("Satu item berhasil diubah")
-                }
-                CRUDNoteActivity.RESULT_DELETE -> {
-                    val position = result?.data?.getIntExtra(CRUDNoteActivity.EXTRA_POSITION, 0) as Int
-                    adapter.removeItem(position)
-                    showSnackbarMessage("Satu item berhasil dihapus")
+    private val resultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.data != null) {
+                when (result.resultCode) {
+                    // Akan dipanggil jika request codenya ADD
+                    CRUDNoteActivity.RESULT_ADD -> {
+                        val note =
+                            result.data?.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE) as Note
+                        adapter.addItem(note)
+                        binding.rvNotes.smoothScrollToPosition(adapter.itemCount - 1)
+                        showSnackbarMessage("Satu item berhasil ditambahkan")
+                    }
+                    // Akan dipanggil jika request codenya UPDATE
+                    CRUDNoteActivity.RESULT_UPDATE -> {
+                        val note =
+                            result.data?.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE) as Note
+                        val position =
+                            result?.data?.getIntExtra(CRUDNoteActivity.EXTRA_POSITION, 0) as Int
+                        adapter.updateItem(position, note)
+                        binding.rvNotes.smoothScrollToPosition(position)
+                        showSnackbarMessage("Satu item berhasil diubah")
+                    }
+                    // Akan dipanggil jika request codenya DELETE
+                    CRUDNoteActivity.RESULT_DELETE -> {
+                        val position =
+                            result?.data?.getIntExtra(CRUDNoteActivity.EXTRA_POSITION, 0) as Int
+                        adapter.removeItem(position)
+                        showSnackbarMessage("Satu item berhasil dihapus")
+                    }
                 }
             }
         }
-    }
 
     companion object {
         private const val EXTRA_STATE = "EXTRA_STATE"
@@ -86,6 +91,9 @@ class MainActivity : AppCompatActivity() {
             val list = savedInstanceState.getParcelableArrayList<Note>(EXTRA_STATE)
             if (list != null) {
                 adapter.listNotes = list
+                adapter.notifyDataSetChanged() // Menampilkan data lama langsung pada RecyclerView
+            } else {
+                loadNotesAsync() // Jika tidak ada data di savedInstanceState, load data seperti biasa
             }
         }
     }
@@ -108,6 +116,8 @@ class MainActivity : AppCompatActivity() {
                 showSnackbarMessage("Tidak ada data saat ini")
             }
             noteHelper.close()
+
+            adapter.notifyDataSetChanged() // Menampilkan data langsung pada RecyclerView setelah load selesai
         }
     }
 
