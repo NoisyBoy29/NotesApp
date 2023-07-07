@@ -5,4 +5,11 @@
     <string name="submit">Submit</string>
     <string name="delete">Hapus</string>
     <string name="date">Tanggal</string>
+    <string name="input">Masukkan Bahasa</string>
+    <string name="input_text">Masukkan Teks</string>
+    <string name="output">Keluaran Bahasa</string>
+    <string name="output_text">Teks Terjemahan</string>
+    <string name="from">Pilihan</string>
+    <string name="to">Pilihan</string>
+    <string name="translate">terjemahkan</string>
 </resources>

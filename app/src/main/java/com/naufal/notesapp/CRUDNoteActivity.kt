@@ -2,7 +2,10 @@ package com.naufal.notesapp
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +15,7 @@ import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import com.naufal.notesapp.databinding.ActivityCrudnoteBinding
 import com.naufal.notesapp.db.DatabaseConfig
@@ -57,17 +61,14 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             note = Note()
         }
         val actionBarTitle: String
-        val btnTitle: String
         if (isEdit) {
             actionBarTitle = "Ubah"
-            btnTitle = "Update"
             note?.let {
                 binding.edtTitle.setText(it.title)
                 binding.edtDescription.setText(it.description)
             }
         } else {
             actionBarTitle = "Tambah"
-            btnTitle = "Simpan"
         }
         supportActionBar?.title = actionBarTitle
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -75,6 +76,13 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         binding.voiceSpeechButton.setOnClickListener {
             speechInput()
         }
+        binding.copyDescButton.setOnClickListener {
+            copyDescToClipboard()
+        }
+        binding.translateButton.setOnClickListener {
+            intentToTranslate()
+        }
+
     }
 
     override fun onClick(view: View) {
@@ -211,5 +219,18 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             voiceSpeech.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
             startActivityForResult(voiceSpeech, speechRec)
         }
+    }
+
+    private fun copyDescToClipboard() {
+        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val copyDescNote = findViewById<EditText>(R.id.edtDescription).text.toString()
+        val clipDesc = ClipData.newPlainText("Salin Teks", copyDescNote)
+        clipboardManager.setPrimaryClip(clipDesc)
+        Toast.makeText(this, "Teks berhasil disalin ke clipboard", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun intentToTranslate() {
+        val intent = Intent(this, TranslateActivity::class.java)
+        startActivity(intent)
     }
 }
