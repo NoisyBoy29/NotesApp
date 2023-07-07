@@ -3,6 +3,8 @@ package com.naufal.notesapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -91,9 +93,11 @@ class MainActivity : AppCompatActivity() {
             val list = savedInstanceState.getParcelableArrayList<Note>(EXTRA_STATE)
             if (list != null) {
                 adapter.listNotes = list
-                adapter.notifyDataSetChanged() // Menampilkan data lama langsung pada RecyclerView
+                // Menampilkan data lama langsung pada RecyclerView
+                adapter.notifyDataSetChanged()
             } else {
-                loadNotesAsync() // Jika tidak ada data di savedInstanceState, load data seperti biasa
+                // Jika tidak ada data di savedInstanceState, load data seperti biasa
+                loadNotesAsync()
             }
         }
     }
@@ -117,7 +121,8 @@ class MainActivity : AppCompatActivity() {
             }
             noteHelper.close()
 
-            adapter.notifyDataSetChanged() // Menampilkan data langsung pada RecyclerView setelah load selesai
+            // Menampilkan data langsung pada RecyclerView setelah load selesai
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -128,5 +133,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSnackbarMessage(message: String) {
         Snackbar.make(binding.rvNotes, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+            menuInflater.inflate(R.menu.menu_app, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_how -> {
+                val howToUse = Intent(this@MainActivity, HowToUseActivity::class.java)
+                startActivity(howToUse)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

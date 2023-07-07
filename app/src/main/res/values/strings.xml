@@ -12,4 +12,12 @@
     <string name="from">Pilihan</string>
     <string name="to">Pilihan</string>
     <string name="translate">terjemahkan</string>
+    <string name="ask">Cara penggunaan aplikasi</string>
+    <string name="howTo">Cara Menggunakan Aplikasi</string>
+    <string name="fillHowTo">1. Anda dapat menambahkan data menggunakan Tombol (+) yang berada di sudut kanan bawah pada halaman utama. \n
+        \n2. Anda dapat Merubah data dengan menekan catatan yang ingin dirubah pada halaman detail catatan lalu tekan tombol simpan kembali. \n
+        \n3. Anda dapat Menghapus data dengan menekan catatan lalu menekan ikon tempat sampah pada halaman detail catatan. \n
+        \n4. Anda dapat menggunakan fitur Voice to Text dengan menekan tombol mikrofon pada halaman tambah data. \n
+        \n5. Anda dapat menggunakan fitur Menyalin Teks dengan menekan tombol salin pada sudut kanan di bawah teks deskripsi. \n
+        \n6. Anda dapat menggunakan fitur penerjemah dengan menekan tombol terjemahan di sudut kanan bawah.</string>
 </resources>
