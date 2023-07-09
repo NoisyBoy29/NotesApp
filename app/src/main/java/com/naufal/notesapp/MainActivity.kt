@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: NoteAdapter
 
+    // Init launcher untuk memulai aktivitas dengan hasil
     private val resultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.data != null) {
@@ -72,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvNotes.layoutManager = LinearLayoutManager(this)
         binding.rvNotes.setHasFixedSize(true)
 
+        // Inisialisasi adapter
         adapter = NoteAdapter(object : NoteAdapter.OnItemClickCallback {
             override fun onItemClicked(selectedNote: Note?, position: Int?) {
                 val intent = Intent(this@MainActivity, CRUDNoteActivity::class.java)
@@ -102,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // loading data secara asynchronous
     private fun loadNotesAsync() {
         lifecycleScope.launch {
             binding.progressbar.visibility = View.VISIBLE
@@ -121,7 +124,7 @@ class MainActivity : AppCompatActivity() {
             }
             noteHelper.close()
 
-            // Menampilkan data langsung pada RecyclerView setelah load selesai
+            // Menampilkan data langsung pada RecyclerView
             adapter.notifyDataSetChanged()
         }
     }
@@ -131,12 +134,13 @@ class MainActivity : AppCompatActivity() {
         outState.putParcelableArrayList(EXTRA_STATE, adapter.listNotes)
     }
 
+    // Menampilkan pesan snackbar
     private fun showSnackbarMessage(message: String) {
         Snackbar.make(binding.rvNotes, message, Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-            menuInflater.inflate(R.menu.menu_app, menu)
+        menuInflater.inflate(R.menu.menu_app, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -150,3 +154,4 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 }
+

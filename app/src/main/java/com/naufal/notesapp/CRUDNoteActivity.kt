@@ -103,6 +103,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             values.put(DatabaseConfig.NoteColumns.TITLE, title)
             values.put(DatabaseConfig.NoteColumns.DESCRIPTION, description)
             if (isEdit) {
+                // Mengupdate data note yang sudah ada
                 val result = noteHelper.update(note?.id.toString(), values).toLong()
                 if (result > 0) {
                     setResult(RESULT_UPDATE, intent)
@@ -115,6 +116,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
                     ).show()
                 }
             } else {
+                // Menambahkan data note baru
                 note?.date = getCurrentDate()
                 values.put(DATE, getCurrentDate())
                 val result = noteHelper.insert(values)
@@ -129,6 +131,8 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    // Mendapatkan tanggal dan waktu saat ini
     private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
         val date = Date()
@@ -137,6 +141,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (isEdit) {
+            // Menampilkan menu delete jika sedang dalam mode edit
             menuInflater.inflate(R.menu.menu_note, menu)
         }
         return super.onCreateOptionsMenu(menu)
@@ -175,6 +180,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
                 if (isDialogClose) {
                     finish()
                 } else {
+                    // Menghapus data note
                     val result = noteHelper.deleteById(note?.id.toString()).toLong()
                     if (result > 0) {
                         val intent = Intent()
@@ -209,7 +215,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
     private fun speechInput() {
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
             Toast.makeText(this, "Speech Failed", Toast.LENGTH_SHORT).show()
-        } else {
+        } else{
             val voiceSpeech = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             voiceSpeech.putExtra(
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -221,6 +227,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    // Menyalin isi deskripsi ke clipboard
     private fun copyDescToClipboard() {
         val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val copyDescNote = findViewById<EditText>(R.id.edtDescription).text.toString()
@@ -229,6 +236,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         Toast.makeText(this, "Teks berhasil disalin ke clipboard", Toast.LENGTH_SHORT).show()
     }
 
+    // Mengarahkan ke halaman TranslateActivity
     private fun intentToTranslate() {
         val intent = Intent(this, TranslateActivity::class.java)
         startActivity(intent)

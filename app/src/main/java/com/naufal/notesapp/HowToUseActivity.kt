@@ -10,12 +10,17 @@ class HowToUseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_how_to_use)
         val actionbar = supportActionBar
+
+        // Menetapkan judul action bar
         actionbar!!.title = "Cara Menggunakan Aplikasi"
+
+        // Menampilkan tombol "back" di action bar
         actionbar.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
+            // Menghandle klik tombol "back" di action bar
             onBackPressed()
             return true
         }
@@ -23,6 +28,7 @@ class HowToUseActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        // Kembali ke MainActivity saat tombol back ditekan
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

@@ -43,8 +43,10 @@ class TranslateActivity : AppCompatActivity() {
 
             val translator = Translation.getClient(options)
 
+            // Mendownload model terjemahan jika diperlukan
             translator.downloadModelIfNeeded(conditions).addOnSuccessListener {
 
+                // Melakukan terjemahan
                 translator.translate(binding.tvInput.text.toString())
                     .addOnSuccessListener { translatedText ->
                         binding.tvOutput.text = translatedText
@@ -61,6 +63,7 @@ class TranslateActivity : AppCompatActivity() {
         }
     }
 
+    // Memilih bahasa sumber terjemahan
     private fun selectFrom(): String {
         return when (binding.languageFrom.text.toString()) {
             "Pilih Bahasa" -> TranslateLanguage.ENGLISH
@@ -70,6 +73,7 @@ class TranslateActivity : AppCompatActivity() {
         }
     }
 
+    // Memilih bahasa tujuan terjemahan
     private fun selectTo(): String {
         return when (binding.languageTo.text.toString()) {
             "Pilih Bahasa" -> TranslateLanguage.ENGLISH
@@ -90,6 +94,7 @@ class TranslateActivity : AppCompatActivity() {
         }
     }
 
+    // Mengaktifkan input suara
     private fun speechInput() {
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
             Toast.makeText(this, "Speech Failed", Toast.LENGTH_SHORT).show()
