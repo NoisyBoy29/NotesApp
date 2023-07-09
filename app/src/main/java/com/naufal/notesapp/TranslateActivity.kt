@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.Editable
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ class TranslateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_translate)
         val itemsAdapter: ArrayAdapter<String> = ArrayAdapter(
@@ -108,5 +110,21 @@ class TranslateActivity : AppCompatActivity() {
             voiceSpeech.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
             startActivityForResult(voiceSpeech, speechRec)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            // Menghandle klik tombol "back" di action bar
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        // Kembali ke MainActivity saat tombol back ditekan
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
