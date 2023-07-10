@@ -62,17 +62,17 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         }
         val actionBarTitle: String
         if (isEdit) {
-            actionBarTitle = "Ubah"
+            actionBarTitle = "Ubah Data"
             note?.let {
                 binding.edtTitle.setText(it.title)
                 binding.edtDescription.setText(it.description)
             }
         } else {
-            actionBarTitle = "Tambah"
+            actionBarTitle = "Tambah Data"
         }
         supportActionBar?.title = actionBarTitle
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.btnSubmit.setOnClickListener(this)
+        binding.btnSimpan.setOnClickListener(this)
         binding.voiceSpeechButton.setOnClickListener {
             speechInput()
         }
@@ -86,7 +86,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        if (view.id == R.id.btn_submit) {
+        if (view.id == R.id.btn_simpan) {
             val title = binding.edtTitle.text.toString().trim()
             val description = binding.edtDescription.text.toString().trim()
             if (title.isEmpty()) {
@@ -166,7 +166,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         val dialogMessage: String
         if (isDialogClose) {
             dialogTitle = "Batal"
-            dialogMessage = "Apakah anda ingin membatalkan perubahan pada form?"
+            dialogMessage = "Apakah anda ingin membatalkan operasi data ?"
         } else {
             dialogMessage = "Apakah anda yakin ingin menghapus item ini?"
             dialogTitle = "Hapus Note"

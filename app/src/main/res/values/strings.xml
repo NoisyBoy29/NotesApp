@@ -2,7 +2,7 @@
     <string name="app_name">Notes App</string>
     <string name="title">Judul</string>
     <string name="description">Deskripsi</string>
-    <string name="submit">Submit</string>
+    <string name="simpan">Simpan</string>
     <string name="delete">Hapus</string>
     <string name="date">Tanggal</string>
     <string name="input">Masukkan Bahasa</string>
