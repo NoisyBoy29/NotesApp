@@ -168,7 +168,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
 
     // Mendapatkan tanggal dan waktu saat ini
     private fun getCurrentDate(): String {
-        val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("EEEE dd/MM/yyyy HH:mm", Locale.getDefault())
         val date = Date()
         return dateFormat.format(date)
     }
@@ -202,8 +202,8 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             dialogTitle = "Batal"
             dialogMessage = "Apakah anda ingin membatalkan operasi data ?"
         } else {
-            dialogMessage = "Apakah anda yakin ingin menghapus item ini?"
-            dialogTitle = "Hapus Note"
+            dialogMessage = "Apakah anda yakin ingin menghapus catatan ini?"
+            dialogTitle = "Hapus Catatan"
         }
         val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setTitle(dialogTitle)
@@ -224,7 +224,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
                     } else {
                         Toast.makeText(
                             this@CRUDNoteActivity,
-                            "Gagal menghapus data",
+                            "Gagal menghapus Catatan",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -264,7 +264,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
     // Menyalin isi deskripsi ke clipboard
     private fun copyTranslateToClipboard() {
         val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val copyDescNote = findViewById<EditText>(R.id.translate_output).text.toString()
+        val copyDescNote = binding.translateOutput.text.toString()
         val clipDesc = ClipData.newPlainText("Salin Teks", copyDescNote)
         clipboardManager.setPrimaryClip(clipDesc)
         Toast.makeText(this, "Teks berhasil disalin ke clipboard", Toast.LENGTH_SHORT).show()

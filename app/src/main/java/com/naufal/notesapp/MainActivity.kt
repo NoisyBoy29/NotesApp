@@ -32,12 +32,16 @@ class MainActivity : AppCompatActivity() {
                 when (result.resultCode) {
                     // Akan dipanggil jika request codenya ADD
                     CRUDNoteActivity.RESULT_ADD -> {
-                        val note =
-                            result.data?.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE) as Note
+                        val note = result.data?.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE) as Note
                         adapter.addItem(note)
+
+                        // Urutkan listNotes secara Descending By ID
+                        adapter.listNotes.sortByDescending { it.id }
+                        adapter.notifyDataSetChanged()
                         binding.rvNotes.smoothScrollToPosition(adapter.itemCount - 1)
-                        showSnackbarMessage("Satu item berhasil ditambahkan")
+                        showSnackbarMessage("Catatan berhasil ditambahkan")
                     }
+
                     // Akan dipanggil jika request codenya UPDATE
                     CRUDNoteActivity.RESULT_UPDATE -> {
                         val note =
@@ -46,14 +50,14 @@ class MainActivity : AppCompatActivity() {
                             result?.data?.getIntExtra(CRUDNoteActivity.EXTRA_POSITION, 0) as Int
                         adapter.updateItem(position, note)
                         binding.rvNotes.smoothScrollToPosition(position)
-                        showSnackbarMessage("Satu item berhasil diubah")
+                        showSnackbarMessage("Catatan berhasil diubah")
                     }
                     // Akan dipanggil jika request codenya DELETE
                     CRUDNoteActivity.RESULT_DELETE -> {
                         val position =
                             result?.data?.getIntExtra(CRUDNoteActivity.EXTRA_POSITION, 0) as Int
                         adapter.removeItem(position)
-                        showSnackbarMessage("Satu item berhasil dihapus")
+                        showSnackbarMessage("Catatan berhasil dihapus")
                     }
                 }
             }
@@ -120,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 adapter.listNotes = notes
             } else {
                 adapter.listNotes = ArrayList()
-                showSnackbarMessage("Tidak ada data saat ini")
+                showSnackbarMessage("Tidak ada Catatan saat ini")
             }
             noteHelper.close()
 
