@@ -34,7 +34,7 @@
             app:layout_constraintTop_toBottomOf="@id/input_label" />
 
         <TextView
-            android:id="@+id/output_label"
+            android:id="@+id/translate_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -55,7 +55,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/output_label" />
+            app:layout_constraintTop_toBottomOf="@id/translate_label" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/language_from_layout"

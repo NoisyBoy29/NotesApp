@@ -5,12 +5,15 @@
     <string name="simpan">Simpan</string>
     <string name="delete">Hapus</string>
     <string name="date">Tanggal</string>
+
     <string name="input">Masukkan Bahasa</string>
     <string name="input_text">Masukkan Teks</string>
     <string name="output">Keluaran Bahasa</string>
-    <string name="output_text">Teks Terjemahan</string>
-    <string name="from">Pilihan</string>
-    <string name="to">Pilihan</string>
+    <string name="output_text">Hasil Terjemahan</string>
+    <string name="translate_label">Penerjemah Deskripsi</string>
+
+    <string name="from">Pilih</string>
+    <string name="to">Pilih</string>
     <string name="translate">terjemahkan</string>
     <string name="ask">Cara penggunaan aplikasi</string>
     <string name="howTo">Cara Menggunakan Aplikasi</string>
@@ -20,4 +23,5 @@
         \n4. Anda dapat menggunakan fitur Voice to Text dengan menekan tombol mikrofon pada halaman tambah data. \n
         \n5. Anda dapat menggunakan fitur Menyalin Teks dengan menekan tombol salin pada sudut kanan di bawah teks deskripsi. \n
         \n6. Anda dapat menggunakan fitur penerjemah dengan menekan tombol terjemahan di sudut kanan bawah.</string>
+
 </resources>

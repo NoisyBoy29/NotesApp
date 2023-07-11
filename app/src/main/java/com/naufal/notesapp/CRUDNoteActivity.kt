@@ -7,7 +7,6 @@ import android.content.ClipboardManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
@@ -15,8 +14,14 @@ import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 import com.naufal.notesapp.databinding.ActivityCrudnoteBinding
 import com.naufal.notesapp.db.DatabaseConfig
 import com.naufal.notesapp.db.DatabaseConfig.NoteColumns.Companion.DATE
@@ -31,9 +36,9 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
     private var note: Note? = null
     private var position: Int = 0
     private lateinit var noteHelper: NoteHelper
-
     private lateinit var binding: ActivityCrudnoteBinding
-
+    private var items = arrayOf("English", "Indonesia")
+    private var conditions = DownloadConditions.Builder().requireWifi().build()
     private val speechRec = 102
 
     companion object {
@@ -62,13 +67,13 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         }
         val actionBarTitle: String
         if (isEdit) {
-            actionBarTitle = "Ubah Data"
+            actionBarTitle = "Detail Catatan"
             note?.let {
                 binding.edtTitle.setText(it.title)
                 binding.edtDescription.setText(it.description)
             }
         } else {
-            actionBarTitle = "Tambah Data"
+            actionBarTitle = "Menambahkan Catatan"
         }
         supportActionBar?.title = actionBarTitle
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -76,11 +81,40 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         binding.voiceSpeechButton.setOnClickListener {
             speechInput()
         }
-        binding.copyDescButton.setOnClickListener {
-            copyDescToClipboard()
+        binding.copyTranslateButton.setOnClickListener {
+            copyTranslateToClipboard()
         }
-        binding.translateButton.setOnClickListener {
-            intentToTranslate()
+//        binding.translateButton.setOnClickListener {
+//            intentToTranslate()
+//        }
+
+        val itemsAdapter: ArrayAdapter<String> = ArrayAdapter(
+            this, android.R.layout.simple_dropdown_item_1line, items
+        )
+
+        binding.languageFrom.setAdapter(itemsAdapter)
+
+        binding.languageTo.setAdapter(itemsAdapter)
+
+        binding.translate.setOnClickListener {
+            val options = TranslatorOptions.Builder().setSourceLanguage(selectFrom())
+                .setTargetLanguage(selectTo()).build()
+
+            val translator = Translation.getClient(options)
+
+            // Mendownload model terjemahan jika diperlukan
+            translator.downloadModelIfNeeded(conditions).addOnSuccessListener {
+
+                // Melakukan terjemahan
+                translator.translate(binding.edtDescription.text.toString())
+                    .addOnSuccessListener { translatedText ->
+                        binding.translateOutput.text = translatedText
+                    }.addOnFailureListener { exception ->
+                        Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
+                    }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
@@ -228,17 +262,37 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     // Menyalin isi deskripsi ke clipboard
-    private fun copyDescToClipboard() {
+    private fun copyTranslateToClipboard() {
         val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val copyDescNote = findViewById<EditText>(R.id.edtDescription).text.toString()
+        val copyDescNote = findViewById<EditText>(R.id.translate_output).text.toString()
         val clipDesc = ClipData.newPlainText("Salin Teks", copyDescNote)
         clipboardManager.setPrimaryClip(clipDesc)
         Toast.makeText(this, "Teks berhasil disalin ke clipboard", Toast.LENGTH_SHORT).show()
     }
 
-    // Mengarahkan ke halaman TranslateActivity
-    private fun intentToTranslate() {
-        val intent = Intent(this, TranslateActivity::class.java)
-        startActivity(intent)
+    // Memilih bahasa sumber terjemahan
+    private fun selectFrom(): String {
+        return when (binding.languageFrom.text.toString()) {
+            "Pilih Bahasa" -> TranslateLanguage.ENGLISH
+            "English" -> TranslateLanguage.ENGLISH
+            "Indonesia" -> TranslateLanguage.INDONESIAN
+            else -> TranslateLanguage.ENGLISH
+        }
     }
+
+    // Memilih bahasa tujuan terjemahan
+    private fun selectTo(): String {
+        return when (binding.languageTo.text.toString()) {
+            "Pilih Bahasa" -> TranslateLanguage.ENGLISH
+            "English" -> TranslateLanguage.ENGLISH
+            "Indonesia" -> TranslateLanguage.INDONESIAN
+            else -> TranslateLanguage.INDONESIAN
+        }
+    }
+
+    // Mengarahkan ke halaman TranslateActivity
+//    private fun intentToTranslate() {
+//        val intent = Intent(this, TranslateActivity::class.java)
+//        startActivity(intent)
+//    }
 }
