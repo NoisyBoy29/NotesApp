@@ -12,8 +12,8 @@
     <string name="output_text">Hasil Terjemahan</string>
     <string name="translate_label">Penerjemah Deskripsi</string>
 
-    <string name="from">Pilih</string>
-    <string name="to">Pilih</string>
+    <string name="from">Dari</string>
+    <string name="to">Ke</string>
     <string name="translate">terjemahkan</string>
     <string name="ask">Cara penggunaan aplikasi</string>
     <string name="howTo">Cara Menggunakan Aplikasi</string>
@@ -23,5 +23,6 @@
         \n4. Anda dapat menggunakan fitur Voice to Text dengan menekan tombol mikrofon pada halaman tambah data. \n
         \n5. Anda dapat menggunakan fitur Menyalin Teks dengan menekan tombol salin pada sudut kanan di bawah teks deskripsi. \n
         \n6. Anda dapat menggunakan fitur penerjemah dengan menekan tombol terjemahan di sudut kanan bawah.</string>
+    <string name="Edit">Merubah Catatan</string>
 
 </resources>

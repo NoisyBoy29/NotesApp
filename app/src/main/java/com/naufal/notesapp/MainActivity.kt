@@ -1,5 +1,6 @@
 package com.naufal.notesapp
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: NoteAdapter
+    private val VIEW_NOTE_REQUEST_CODE = 1
 
     // Init launcher untuk memulai aktivitas dengan hasil
     private val resultLauncher: ActivityResultLauncher<Intent> =
@@ -32,7 +34,8 @@ class MainActivity : AppCompatActivity() {
                 when (result.resultCode) {
                     // Akan dipanggil jika request codenya ADD
                     CRUDNoteActivity.RESULT_ADD -> {
-                        val note = result.data?.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE) as Note
+                        val note =
+                            result.data?.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE) as Note
                         adapter.addItem(note)
 
                         // Urutkan listNotes secara Descending By ID
@@ -80,10 +83,9 @@ class MainActivity : AppCompatActivity() {
         // Inisialisasi adapter
         adapter = NoteAdapter(object : NoteAdapter.OnItemClickCallback {
             override fun onItemClicked(selectedNote: Note?, position: Int?) {
-                val intent = Intent(this@MainActivity, CRUDNoteActivity::class.java)
-                intent.putExtra(CRUDNoteActivity.EXTRA_NOTE, selectedNote)
-                intent.putExtra(CRUDNoteActivity.EXTRA_POSITION, position)
-                resultLauncher.launch(intent)
+                val intent = Intent(this@MainActivity, ViewNoteActivity::class.java)
+                intent.putExtra("EXTRA_NOTE", selectedNote)
+                startActivityForResult(intent, VIEW_NOTE_REQUEST_CODE)
             }
         })
         binding.rvNotes.adapter = adapter
@@ -107,6 +109,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == VIEW_NOTE_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                val action = data?.getStringExtra("ACTION")
+                val note = data?.getParcelableExtra<Note>("NOTE")
+                val position = data?.getIntExtra("POSITION", 0)
+
+                if (action != null && note != null && position != null) {
+                    when (action) {
+                        "EDIT" -> {
+                            val intent = Intent(this, CRUDNoteActivity::class.java)
+                            intent.putExtra(CRUDNoteActivity.EXTRA_NOTE, note)
+                            intent.putExtra(CRUDNoteActivity.EXTRA_POSITION, position)
+                            resultLauncher.launch(intent)
+                        }
+
+                        "DELETE" -> {
+                            adapter.removeItem(position)
+                            showSnackbarMessage("Catatan berhasil dihapus")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     // loading data secara asynchronous
     private fun loadNotesAsync() {

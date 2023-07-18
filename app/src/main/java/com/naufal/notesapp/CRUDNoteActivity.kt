@@ -67,13 +67,13 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         }
         val actionBarTitle: String
         if (isEdit) {
-            actionBarTitle = "Detail Catatan"
+            actionBarTitle = "Ubah Catatan " + note?.title
             note?.let {
                 binding.edtTitle.setText(it.title)
                 binding.edtDescription.setText(it.description)
             }
         } else {
-            actionBarTitle = "Menambahkan Catatan"
+            actionBarTitle = "Menambahkan Catatan Baru"
         }
         supportActionBar?.title = actionBarTitle
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
