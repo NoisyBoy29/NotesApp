@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/translate" />
+            app:layout_constraintTop_toBottomOf="@+id/translateButton" />
 
         <TextView
             android:id="@+id/tv_output"
@@ -83,7 +83,7 @@
             android:layout_height="43dp"
             android:layout_marginTop="32dp"
             android:src="@drawable/ic_baseline_arrow_right_24"
-            app:layout_constraintBottom_toTopOf="@+id/translate"
+            app:layout_constraintBottom_toTopOf="@+id/translateButton"
             app:layout_constraintEnd_toStartOf="@id/language_to_layout"
             app:layout_constraintStart_toEndOf="@id/language_from_layout"
             app:layout_constraintTop_toBottomOf="@+id/tv_input"
@@ -110,7 +110,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/translate"
+            android:id="@+id/translateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

@@ -74,6 +74,16 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             }
         } else {
             actionBarTitle = "Menambahkan Catatan Baru"
+            binding.translateLabel.visibility = View.GONE
+            binding.languageFrom.visibility = View.GONE
+            binding.languageTo.visibility = View.GONE
+            binding.languageFromLayout.visibility = View.GONE
+            binding.languageToLayout.visibility = View.GONE
+            binding.arrowImageView.visibility = View.GONE
+            binding.translateButton.visibility = View.GONE
+            binding.translateOutput.visibility = View.GONE
+
+
         }
         supportActionBar?.title = actionBarTitle
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -96,7 +106,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.languageTo.setAdapter(itemsAdapter)
 
-        binding.translate.setOnClickListener {
+        binding.translateButton.setOnClickListener {
             val options = TranslatorOptions.Builder().setSourceLanguage(selectFrom())
                 .setTargetLanguage(selectTo()).build()
 

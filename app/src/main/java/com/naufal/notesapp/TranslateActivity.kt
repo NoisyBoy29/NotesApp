@@ -39,7 +39,7 @@ class TranslateActivity : AppCompatActivity() {
 
         binding.languageTo.setAdapter(itemsAdapter)
 
-        binding.translate.setOnClickListener {
+        binding.translateButton.setOnClickListener {
             val options = TranslatorOptions.Builder().setSourceLanguage(selectFrom())
                 .setTargetLanguage(selectTo()).build()
 

@@ -123,7 +123,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_baseline_arrow_right_24"
-        app:layout_constraintBottom_toTopOf="@+id/translate"
+        app:layout_constraintBottom_toTopOf="@+id/translateButton"
         app:layout_constraintEnd_toStartOf="@id/language_to_layout"
         app:layout_constraintStart_toEndOf="@id/language_from_layout"
         app:layout_constraintVertical_bias="0.0" />
@@ -149,7 +149,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/translate"
+        android:id="@+id/translateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -168,6 +168,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/translate" />
+        app:layout_constraintTop_toBottomOf="@+id/translateButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
