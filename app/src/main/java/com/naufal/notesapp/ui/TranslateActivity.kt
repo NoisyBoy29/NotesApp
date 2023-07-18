@@ -1,4 +1,4 @@
-package com.naufal.notesapp
+package com.naufal.notesapp.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -15,6 +15,7 @@ import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
+import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ActivityTranslateBinding
 import java.util.Locale
 

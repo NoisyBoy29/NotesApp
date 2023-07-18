@@ -1,4 +1,4 @@
-package com.naufal.notesapp
+package com.naufal.notesapp.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
 import android.widget.ProgressBar
+import com.naufal.notesapp.R
 
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {

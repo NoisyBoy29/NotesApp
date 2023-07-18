@@ -1,4 +1,4 @@
-package com.naufal.notesapp
+package com.naufal.notesapp.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ActivityMainBinding
 import com.naufal.notesapp.adapter.NoteAdapter
 import com.naufal.notesapp.db.Note

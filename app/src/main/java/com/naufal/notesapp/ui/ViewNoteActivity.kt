@@ -1,4 +1,4 @@
-package com.naufal.notesapp
+package com.naufal.notesapp.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.Menu
 import android.view.MenuItem
+import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ActivityViewNoteBinding
 import com.naufal.notesapp.db.Note
 

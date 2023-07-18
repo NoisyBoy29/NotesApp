@@ -1,4 +1,4 @@
-package com.naufal.notesapp
+package com.naufal.notesapp.ui
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -15,13 +15,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
+import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ActivityCrudnoteBinding
 import com.naufal.notesapp.db.DatabaseConfig
 import com.naufal.notesapp.db.DatabaseConfig.NoteColumns.Companion.DATE

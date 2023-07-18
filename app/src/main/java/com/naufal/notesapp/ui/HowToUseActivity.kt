@@ -1,9 +1,10 @@
-package com.naufal.notesapp
+package com.naufal.notesapp.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import com.naufal.notesapp.R
 
 class HowToUseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
