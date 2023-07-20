@@ -37,8 +37,6 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
     private var position: Int = 0
     private lateinit var noteHelper: NoteHelper
     private lateinit var binding: ActivityCrudnoteBinding
-    private var items = arrayOf("English", "Indonesia")
-    private var conditions = DownloadConditions.Builder().requireWifi().build()
     private val speechRec = 102
 
     companion object {
@@ -74,16 +72,6 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             }
         } else {
             actionBarTitle = "Menambahkan Catatan Baru"
-            binding.translateLabel.visibility = View.GONE
-            binding.languageFrom.visibility = View.GONE
-            binding.languageTo.visibility = View.GONE
-            binding.languageFromLayout.visibility = View.GONE
-            binding.languageToLayout.visibility = View.GONE
-            binding.arrowImageView.visibility = View.GONE
-            binding.translateButton.visibility = View.GONE
-            binding.translateOutput.visibility = View.GONE
-
-
         }
         supportActionBar?.title = actionBarTitle
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -91,42 +79,10 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         binding.voiceSpeechButton.setOnClickListener {
             speechInput()
         }
-        binding.copyTranslateButton.setOnClickListener {
-            copyTranslateToClipboard()
-        }
+
 //        binding.translateButton.setOnClickListener {
 //            intentToTranslate()
 //        }
-
-        val itemsAdapter: ArrayAdapter<String> = ArrayAdapter(
-            this, android.R.layout.simple_dropdown_item_1line, items
-        )
-
-        binding.languageFrom.setAdapter(itemsAdapter)
-
-        binding.languageTo.setAdapter(itemsAdapter)
-
-        binding.translateButton.setOnClickListener {
-            val options = TranslatorOptions.Builder().setSourceLanguage(selectFrom())
-                .setTargetLanguage(selectTo()).build()
-
-            val translator = Translation.getClient(options)
-
-            // Mendownload model terjemahan jika diperlukan
-            translator.downloadModelIfNeeded(conditions).addOnSuccessListener {
-
-                // Melakukan terjemahan
-                translator.translate(binding.edtDescription.text.toString())
-                    .addOnSuccessListener { translatedText ->
-                        binding.translateOutput.text = translatedText
-                    }.addOnFailureListener { exception ->
-                        Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
-                    }
-            }.addOnFailureListener { exception ->
-                Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-
     }
 
     override fun onClick(view: View) {
@@ -154,9 +110,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
                     finish()
                 } else {
                     Toast.makeText(
-                        this@CRUDNoteActivity,
-                        "Gagal mengupdate data",
-                        Toast.LENGTH_SHORT
+                        this@CRUDNoteActivity, "Gagal mengupdate data", Toast.LENGTH_SHORT
                     ).show()
                 }
             } else {
@@ -217,9 +171,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         }
         val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setTitle(dialogTitle)
-        alertDialogBuilder
-            .setMessage(dialogMessage)
-            .setCancelable(false)
+        alertDialogBuilder.setMessage(dialogMessage).setCancelable(false)
             .setPositiveButton("Ya") { _, _ ->
                 if (isDialogClose) {
                     finish()
@@ -233,14 +185,11 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
                         finish()
                     } else {
                         Toast.makeText(
-                            this@CRUDNoteActivity,
-                            "Gagal menghapus Catatan",
-                            Toast.LENGTH_SHORT
+                            this@CRUDNoteActivity, "Gagal menghapus Catatan", Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
-            }
-            .setNegativeButton("Tidak") { dialog, _ -> dialog.cancel() }
+            }.setNegativeButton("Tidak") { dialog, _ -> dialog.cancel() }
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
     }
@@ -259,11 +208,10 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
     private fun speechInput() {
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
             Toast.makeText(this, "Speech Failed", Toast.LENGTH_SHORT).show()
-        } else{
+        } else {
             val voiceSpeech = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             voiceSpeech.putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
             voiceSpeech.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             voiceSpeech.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
@@ -271,34 +219,6 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    // Menyalin isi deskripsi ke clipboard
-    private fun copyTranslateToClipboard() {
-        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val copyDescNote = binding.translateOutput.text.toString()
-        val clipDesc = ClipData.newPlainText("Salin Teks", copyDescNote)
-        clipboardManager.setPrimaryClip(clipDesc)
-        Toast.makeText(this, "Teks berhasil disalin ke clipboard", Toast.LENGTH_SHORT).show()
-    }
-
-    // Memilih bahasa sumber terjemahan
-    private fun selectFrom(): String {
-        return when (binding.languageFrom.text.toString()) {
-            "Pilih Bahasa" -> TranslateLanguage.ENGLISH
-            "English" -> TranslateLanguage.ENGLISH
-            "Indonesia" -> TranslateLanguage.INDONESIAN
-            else -> TranslateLanguage.ENGLISH
-        }
-    }
-
-    // Memilih bahasa tujuan terjemahan
-    private fun selectTo(): String {
-        return when (binding.languageTo.text.toString()) {
-            "Pilih Bahasa" -> TranslateLanguage.ENGLISH
-            "English" -> TranslateLanguage.ENGLISH
-            "Indonesia" -> TranslateLanguage.INDONESIAN
-            else -> TranslateLanguage.INDONESIAN
-        }
-    }
 
     // Mengarahkan ke halaman TranslateActivity
 //    private fun intentToTranslate() {
