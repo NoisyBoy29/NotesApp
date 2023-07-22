@@ -50,7 +50,6 @@ class NoteAdapter(private val onItemClickCallback: OnItemClickCallback) :
         fun bind(note: Note) {
             binding.tvItemTitle.text = note.title
             binding.tvItemDate.text = note.date
-            binding.tvItemDescription.text = note.description
             binding.cvItemNote.setOnClickListener {
                 onItemClickCallback.onItemClicked(note, adapterPosition)
             }
