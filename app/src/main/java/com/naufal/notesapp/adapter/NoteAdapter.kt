@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ItemNoteBinding
-import com.naufal.notesapp.db.Note
+import com.naufal.notesapp.entity.Note
 
 class NoteAdapter(private val onItemClickCallback: OnItemClickCallback) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {

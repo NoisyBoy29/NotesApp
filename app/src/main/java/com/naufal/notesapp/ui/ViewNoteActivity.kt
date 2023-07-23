@@ -18,7 +18,7 @@ import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ActivityViewNoteBinding
-import com.naufal.notesapp.db.Note
+import com.naufal.notesapp.entity.Note
 
 class ViewNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityViewNoteBinding

@@ -28,10 +28,6 @@
             android:name=".ui.HowToUseActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.TranslateActivity"
-            android:exported="false"
-            android:label="Translate Activity" />
-        <activity
             android:name=".ui.CRUDNoteActivity"
             android:exported="false" />
         <activity

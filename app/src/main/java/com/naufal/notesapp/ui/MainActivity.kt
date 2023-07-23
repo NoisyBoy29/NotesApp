@@ -15,7 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ActivityMainBinding
 import com.naufal.notesapp.adapter.NoteAdapter
-import com.naufal.notesapp.db.Note
+import com.naufal.notesapp.entity.Note
 import com.naufal.notesapp.db.NoteHelper
 import com.naufal.notesapp.helper.MappingHelper
 import kotlinx.coroutines.Dispatchers

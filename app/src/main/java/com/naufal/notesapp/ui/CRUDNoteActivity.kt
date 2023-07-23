@@ -2,10 +2,7 @@ package com.naufal.notesapp.ui
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -14,18 +11,13 @@ import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.mlkit.common.model.DownloadConditions
-import com.google.mlkit.nl.translate.TranslateLanguage
-import com.google.mlkit.nl.translate.Translation
-import com.google.mlkit.nl.translate.TranslatorOptions
 import com.naufal.notesapp.R
 import com.naufal.notesapp.databinding.ActivityCrudnoteBinding
 import com.naufal.notesapp.db.DatabaseConfig
 import com.naufal.notesapp.db.DatabaseConfig.NoteColumns.Companion.DATE
-import com.naufal.notesapp.db.Note
+import com.naufal.notesapp.entity.Note
 import com.naufal.notesapp.db.NoteHelper
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -104,7 +96,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             values.put(DatabaseConfig.NoteColumns.DESCRIPTION, description)
             if (isEdit) {
                 // Mengupdate data note yang sudah ada
-                val result = noteHelper.update(note?.id.toString(), values).toLong()
+                val result = noteHelper.updateById(note?.id.toString(), values).toLong()
                 if (result > 0) {
                     setResult(RESULT_UPDATE, intent)
                     finish()
@@ -117,7 +109,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
                 // Menambahkan data note baru
                 note?.date = getCurrentDate()
                 values.put(DATE, getCurrentDate())
-                val result = noteHelper.insert(values)
+                val result = noteHelper.insertData(values)
                 if (result > 0) {
                     note?.id = result.toInt()
                     setResult(RESULT_ADD, intent)
@@ -218,11 +210,4 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
             startActivityForResult(voiceSpeech, speechRec)
         }
     }
-
-
-    // Mengarahkan ke halaman TranslateActivity
-//    private fun intentToTranslate() {
-//        val intent = Intent(this, TranslateActivity::class.java)
-//        startActivity(intent)
-//    }
 }

@@ -2,7 +2,7 @@ package com.naufal.notesapp.helper
 
 import android.database.Cursor
 import com.naufal.notesapp.db.DatabaseConfig
-import com.naufal.notesapp.db.Note
+import com.naufal.notesapp.entity.Note
 
 object MappingHelper {
     fun mapCursorToArrayList(notesCursor: Cursor?): ArrayList<Note> {

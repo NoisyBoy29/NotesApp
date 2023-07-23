@@ -1,4 +1,4 @@
-package com.naufal.notesapp.db
+package com.naufal.notesapp.entity
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
