@@ -71,10 +71,6 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         binding.voiceSpeechButton.setOnClickListener {
             speechInput()
         }
-
-//        binding.translateButton.setOnClickListener {
-//            intentToTranslate()
-//        }
     }
 
     override fun onClick(view: View) {
