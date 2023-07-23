@@ -13,7 +13,7 @@ class HowToUseActivity : AppCompatActivity() {
         val actionbar = supportActionBar
 
         // Menetapkan judul action bar
-        actionbar!!.title = "Cara Menggunakan Aplikasi"
+        actionbar!!.title = "Panduan Aplikasi"
 
         // Menampilkan tombol "back" di action bar
         actionbar.setDisplayHomeAsUpEnabled(true)
