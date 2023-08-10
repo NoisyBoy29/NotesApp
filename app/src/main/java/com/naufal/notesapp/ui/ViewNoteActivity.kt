@@ -82,26 +82,16 @@ class ViewNoteActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // Cek apakah tombol back yang ditekan
-                if (!isTaskRoot) {
-                    // Jika bukan activity utama, kembali ke halaman sebelumnya (ViewNoteActivity)
-                    finish()
-                } else {
-                    // Jika tombol back ditekan dan activity ini adalah activity utama, buat intent untuk kembali ke MainActivity
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                    finish()
-                }
+                finish()
                 return true
             }
 
             R.id.action_edit -> {
-                // Jika menu Edit diklik, pindah ke edit catatan
-                val intent = Intent(this, CRUDNoteActivity::class.java)
-                intent.putExtra(CRUDNoteActivity.EXTRA_NOTE, note)
-                intent.putExtra(CRUDNoteActivity.EXTRA_POSITION, -1) // Tidak memerlukan posisi untuk edit
-                startActivityForResult(intent, CRUDNoteActivity.REQUEST_EDIT)
+                val intent = Intent()
+                intent.putExtra("ACTION", "EDIT")
+                intent.putExtra("NOTE", note)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
                 return true
             }
 
@@ -116,21 +106,6 @@ class ViewNoteActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    override fun onBackPressed() {
-        if (!isTaskRoot) {
-            // Jika bukan activity utama, kembali ke halaman sebelumnya (ViewNoteActivity)
-            finish()
-        } else {
-            // Jika tombol back ditekan dan activity ini adalah activity utama, buat intent untuk kembali ke MainActivity
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            finish()
-        }
-    }
-
-
 
     // Menyalin isi deskripsi ke clipboard
     private fun copyTranslateToClipboard() {
@@ -160,27 +135,4 @@ class ViewNoteActivity : AppCompatActivity() {
             else -> TranslateLanguage.INDONESIAN
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == CRUDNoteActivity.REQUEST_EDIT) {
-            if (resultCode == CRUDNoteActivity.RESULT_UPDATE) {
-                if (data != null) {
-                    val updatedNote = data.getParcelableExtra<Note>(CRUDNoteActivity.EXTRA_NOTE)
-
-                    if (updatedNote != null) {
-                        note = updatedNote
-                        binding.edtTitle.text = SpannableStringBuilder(note?.title)
-                        binding.edtDescription.text = SpannableStringBuilder(note?.description)
-                    }
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-            } else if (resultCode == CRUDNoteActivity.RESULT_DELETE) {
-                setResult(CRUDNoteActivity.RESULT_DELETE, data)
-                finish()
-            }
-        }
-    }
 }
-
