@@ -36,6 +36,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         const val EXTRA_POSITION = "extra_position"
         const val RESULT_ADD = 101
         const val RESULT_UPDATE = 201
+        const val REQUEST_EDIT: Int = 102
         const val RESULT_DELETE = 301
         const val ALERT_DIALOG_CLOSE = 10
         const val ALERT_DIALOG_DELETE = 20
@@ -94,9 +95,14 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
                 // Mengupdate data note yang sudah ada
                 val result = noteHelper.updateById(note?.id.toString(), values).toLong()
                 if (result > 0) {
+                    // Berhasil mengupdate data, set hasil balik dan selesai activity
+                    val intent = Intent()
+                    intent.putExtra(EXTRA_NOTE, note)
+                    intent.putExtra(EXTRA_POSITION, position)
                     setResult(RESULT_UPDATE, intent)
                     finish()
                 } else {
+                    // Gagal mengupdate data, tampilkan pesan kesalahan
                     Toast.makeText(
                         this@CRUDNoteActivity, "Gagal mengupdate data", Toast.LENGTH_SHORT
                     ).show()
@@ -108,11 +114,17 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
                 val result = noteHelper.insertData(values)
                 if (result > 0) {
                     note?.id = result.toInt()
+                    // Berhasil menambah data baru, set hasil balik dan selesai activity
+                    val intent = Intent()
+                    intent.putExtra(EXTRA_NOTE, note)
+                    intent.putExtra(EXTRA_POSITION, position)
                     setResult(RESULT_ADD, intent)
                     finish()
                 } else {
-                    Toast.makeText(this@CRUDNoteActivity, "Gagal menambah data", Toast.LENGTH_SHORT)
-                        .show()
+                    // Gagal menambah data baru, tampilkan pesan kesalahan
+                    Toast.makeText(
+                        this@CRUDNoteActivity, "Gagal menambah data", Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -162,6 +174,7 @@ class CRUDNoteActivity : AppCompatActivity(), View.OnClickListener {
         alertDialogBuilder.setMessage(dialogMessage).setCancelable(false)
             .setPositiveButton("Ya") { _, _ ->
                 if (isDialogClose) {
+                    setResult(Activity.RESULT_CANCELED)
                     finish()
                 } else {
                     // Menghapus data note

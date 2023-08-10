@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                             result?.data?.getIntExtra(CRUDNoteActivity.EXTRA_POSITION, 0) as Int
                         adapter.updateItem(position, note)
                         binding.rvNotes.smoothScrollToPosition(position)
+                        loadNotesAsync()
                         showSnackbarMessage("Catatan berhasil diubah")
                     }
                     // Akan dipanggil jika request codenya DELETE
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
                         val position =
                             result?.data?.getIntExtra(CRUDNoteActivity.EXTRA_POSITION, 0) as Int
                         adapter.removeItem(position)
+                        loadNotesAsync()
                         showSnackbarMessage("Catatan berhasil dihapus")
                     }
                 }
